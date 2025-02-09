@@ -12,7 +12,8 @@
 </head>
 <body>
     
-{% block content %}{% endblock %}<footer>
+{% block content %}{% endblock %}
+<footer>
     <ul class="social-icon">
         <li class="social-icon__item">
             <a class="social-icon__link" href="#"><ion-icon name="logo-facebook" role="img" class="md hydrated" aria-label="logo facebook"></ion-icon></a>
@@ -27,5 +28,29 @@
     <p>©2025 AnimeSaga | Все права защищены</p>
 </footer>
 <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script>
+    window.onload = function() {
+        const message = document.getElementById('message');
+        const leveledUpText = document.getElementById('leveledUp');
+        const soundAppear = document.getElementById('soundAppear');
+        const soundLeveledUp = document.getElementById('soundLeveledUp');
+        const soundDisappear = document.getElementById('soundDisappear');
+        message.style.display = 'block';
+        soundAppear.play();
+        setTimeout(() => {
+            leveledUpText.style.animation = 'leveledUpEffect 1.5s forwards';
+            soundLeveledUp.play();
+        }, 2000);
+        message.onclick = function() {
+            soundDisappear.play();
+            message.style.animation = 'disappearEffect 2s forwards';
+
+            setTimeout(() => {
+                message.style.display = 'none';
+            }, 2000);
+        };
+    };
+</script>
+
 </body>
 </html>

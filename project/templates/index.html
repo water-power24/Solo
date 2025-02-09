@@ -1,8 +1,20 @@
 {%extends 'base.html'%} {% block title %} {{title}} {%endblock%} 
 {%block content%}
 
-    <div id="message" class="anime-message">
-        Ты поднялся на: <span id="level">{{ level }}Lvl</span>
-    </div>
+    
 
+    <main>
+        <div id="message" class="anime-message">
+            <div class="tittle-nitification">
+                <div class="circle">!</div>
+            </div>
+            <div><h3>NOTIFICATION</h3></div>
+            <p>Ты поднялся на:</p>
+            <p class="level">[ {{ level }}Lvl ]</p>
+            <p id="leveledUp" class="leveled-up-text">LEVELED UP!</p>
+        </div>
+        <audio id="soundAppear" src="{% static 'sounds/appear.mp3' %}"></audio>
+        <audio id="soundLeveledUp" src="{% static 'sounds/leveled-up.mp3' %}"></audio>
+        <audio id="soundDisappear" src="{% static 'sounds/disappear.mp3' %}"></audio>
+    </main>
 {%endblock%}
