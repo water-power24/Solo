@@ -15,27 +15,40 @@
             <p class="level">[ {{ level }}Lvl ]</p>
             <p id="leveledUp" class="leveled-up-text">LEVELED UP!</p>
         </div>
-        <div>
-            <p>Day: {{ task.day }}</p>
-            <p>Цитата</p>
-            <p>{{ task.quote_1 }}</p>
-            <p>{{ task.quote_2 }}</p>
-            <p>Tasks:</p>
-                {% for t in task.tasks %}
-                    <li>{{ t }}</li>
-                    </br>
-                {% endfor %}
+        <div class="task-container">
+            <div class="task-content">
+                <p class="task-day">Day: {{ task.day }}</p>
+                <p class="task-quote-title">Цитата</p>
+                <p class="task-quote">{{ task.quote_1 }}</p>
+                <p class="task-quote">{{ task.quote_2 }}</p>
+                <p class="task-title">Tasks:</p>
+                <ul class="task-list">
+                    {% for t in task.tasks %}
+                        <li>
+                            <input type="checkbox" class="task-checkbox" id="task-{{ forloop.counter }}">
+                            <label for="task-{{ forloop.counter }}">{{ t }}</label>
+                            </br>
+                            </br>
+                        </li>
+                    {% endfor %}
+                </ul>
+                <button id="complete-day" class="task-button">День выполнен</button>
+            </div>
+            <div class="task-status">
+                <div class="status-indicator 
+                    {% if task.status == 'Sports' %} status-red 
+                    {% elif task.status == 'Mental growth and recovery' %} status-green 
+                    {% elif task.status == 'Relaxation' %} status-blue 
+                    {% elif task.status == 'Professional skill-building' %} status-orange 
+                    {% elif task.status == 'Theoretical study' %} status-gray 
+                    {% elif task.status == 'adaptation' %} status-yellow
+                    {% else %} status-black 
+                    {% endif %}">
+                </div>
+                <p class="status-title">Статус дня:</p>
+                <span class="status-text">{{ task.get_status_display }}</span>
+            </div>
         </div>
     </main>
 {%endblock%}
 
-<div id="message" class="anime-message">
-    <div class="tittle-nitification">
-        <div class="circle">!</div>
-    </div>
-    <div><h3>NOTIFICATION</h3></div>
-    
-    <p>Ты поднялся на:</p>
-    <p class="level">[ {{ level }}Lvl ]</p>
-    <p id="leveledUp" class="leveled-up-text">LEVELED UP!</p>
-</div>

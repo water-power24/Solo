@@ -15,8 +15,18 @@ class EverydayTaskAdmin(admin.ModelAdmin):
             'Relaxation': 'blue',
             'Professional skill-building': 'orange',
             'Theoretical study': 'gray',
+            'adaptation': 'yellow',
         }
-        return format_html('<span style="color: {};">{}</span>', colors.get(obj.status, 'black'), obj.get_status_display())
+
+        color = colors.get(obj.status, 'black')
+        
+        return format_html(
+            '<div style="display: flex; align-items: center;">'
+            '<div style="width: 12px; height: 12px; border-radius: 50%; background-color: {}; margin-right: 10px;"></div>'
+            '<span>{}</span>'
+            '</div>', 
+            color, obj.get_status_display()
+        )
 
     status_colored.admin_order_field = 'status'
     status_colored.short_description = "Status"
