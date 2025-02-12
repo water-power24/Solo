@@ -3,10 +3,11 @@ body {
     font-family: 'Arial', sans-serif;
     color: white;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
     margin: 0;
     padding: 0;
+    min-height: 100vh;
 }
 
 .anime-message {
@@ -18,7 +19,7 @@ body {
     text-align: center;
     padding: 20px;
     border: 3px solid #fff;
-    border-radius: 4px;
+    border-radius: 6px;
     box-shadow: 0 0 15px rgba(0, 255, 255, 0.8);
     background: rgba(0, 0, 0, 0.7);
     text-shadow: 0 0 5px cyan, 0 0 15px cyan, 0 0 25px cyan;
@@ -28,7 +29,11 @@ body {
     z-index: 999;
 }
 
-.circle{
+body li{
+    list-style: none;
+}
+
+.circle {
     width: 33px;
     height: 33px;
     border-radius: 50%;
@@ -38,21 +43,25 @@ body {
     font-size: 32px;
     text-align: center;
     font-weight: bold;
+    line-height: 33px;
 }
 
-.tittle-nitification{
+.tittle-notification {
     width: 42px;
     height: 42px;
+    margin-top: 30px;
     padding-top: 4px;
     padding-left: 4px;
     margin-left: 48px;
     border: 2px solid #fff;
 }
 
-.anime-message h3{
-    position: absolute;
-    margin-left: 120px;
-    bottom: 112px;
+.flex{
+    display: flex;
+}
+
+.anime-message h3 {
+    margin-left: 24px;
     width: 260px;
     padding-bottom: 6px;
     padding-top: 6px;
@@ -61,9 +70,9 @@ body {
 }
 
 .level {
-    color: #fff;
     font-weight: bold;
     text-shadow: 0 0 5px cyan, 0 0 15px cyan, 0 0 25px cyan;
+    font-size: 22px;
 }
 
 @keyframes showMessage {
@@ -116,60 +125,66 @@ body {
     }
 }
 
-
 .leveled-up-text {
     color: #fff;
     font-weight: bold;
     text-shadow: 0 0 5px cyan, 0 0 15px cyan, 0 0 25px cyan;
-    opacity: 0; 
+    opacity: 0;
     transform: scale(0.5);
+    animation: leveledUpEffect 1.5s forwards 1.5s;
 }
 
-main{
+main {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
     min-height: 500px;
 }
 
 footer {
     width: 100%;
-    border-top: 12px solid #423189;
-    position: relative;
+    border-top: 8px solid #423189;
     background: #17141d;
     min-height: 100px;
-    padding: 20px 50px;
+    padding: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-  }
-  .social-icon,
-  .menu {
-    position: relative;
+}
+
+.social-icon,
+.menu {
     display: flex;
     justify-content: center;
     align-items: center;
     margin: 10px 0;
     flex-wrap: wrap;
-    padding: 0px;
-  }
-  .social-icon__item,
-  .menu__item {
+    padding: 0;
+}
+
+.social-icon__item,
+.menu__item {
     list-style: none;
-  }
-  .social-icon__link {
+}
+
+.social-icon__link {
     font-size: 2rem;
     color: #8B00FF;
     margin: 0 10px;
-    display: inline-block;
     transition: 0.5s;
-  }
-  .social-icon__link:hover {
+}
+
+.social-icon__link:hover {
     color: #423189;
     transform: translateY(-10px);
-  }
-  .footer p {
+}
+
+footer p {
     color: #8B00FF;
     margin: 15px 0 10px 0;
     font-size: 1rem;
     font-weight: 300;
-  }
-  
+}
