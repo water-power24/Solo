@@ -32,7 +32,19 @@
                         </li>
                     {% endfor %}
                 </ul>
-                <button id="complete-day" class="task-button">День выполнен</button>
+                <p class="task-title">all tasks: {{task.quantity_task}}</p>
+            {% if task %}
+                <form method="post" action="{% url 'complete_day' task.day %}">
+                    {% csrf_token %}
+                    <button type="submit">День выполнен!</button>
+                </form>
+            {% else %}
+                <p>Все задания выполнены!</p>
+            {% endif %}
+             <form method="post" action="{% url 'reset_progress' %}"> <!--времено, чтобы уходить на прошлые задания, потом смотри убери!!! и в url и в views -->
+                {% csrf_token %}
+                <button type="submit">Начать сначала</button>
+            </form>
             </div>
             <div class="task-status">
                 <div class="status-indicator 

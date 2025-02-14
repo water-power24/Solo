@@ -302,3 +302,32 @@ footer p {
     font-size: 1rem;
     font-weight: 300;
 }
+
+
+form button {
+    background: cyan;
+    color: black;
+    font-size: 18px;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0 0 10px cyan;
+    margin-bottom: 24px;
+}
+
+form button:hover {
+    background-color: rgb(0, 255, 255);
+    box-shadow: 0 0 14px cyan;
+    transform: scale(1.05);
+}
+
+form button:active {
+    background-color: rgb(0, 230, 230);
+    box-shadow: 0 0 8px cyan;
+}
+
+form button:focus {
+    outline: none;
+}
