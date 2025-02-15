@@ -1,5 +1,8 @@
 from django.shortcuts import render, redirect
 from .models import EverydayTask
+from .forms import CustomUserCreationForm
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout
 
 def index(request):
     level = 1
@@ -19,3 +22,22 @@ def complete_day(request, day):
 def reset_progress(request):
     request.session["last_completed_day"] = 0
     return redirect("index")
+
+def logout_view(request):
+    logout(request)
+    return redirect('login')
+
+def register(request):
+    if request.method == 'POST':
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('login') 
+    else:
+        form = CustomUserCreationForm()
+    return render(request, 'register.html', {'form': form})
+
+@login_required
+def profile(request):
+    user = request.user 
+    return render(request, 'profile.html', {'user': user})

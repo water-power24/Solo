@@ -8,6 +8,7 @@ body {
     margin: 0;
     padding: 0;
     min-height: 100vh;
+    overflow-x: hidden;
 }
 
 .status-red { background-color: rgb(163, 31, 31); }
@@ -26,6 +27,84 @@ body {
     border: 2px solid #08070a;
 }
 
+header {
+    width: 100%;
+    background-color: #08070a;
+    padding: 30px 0;
+    box-shadow: 0 4px 8px rgba(0, 255, 255, 0.2);
+    margin-bottom: 72px;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+    margin: 0 auto;
+}
+
+#showMessageBtn {
+    background: cyan;
+    color: black;
+    font-size: 24pz;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+    box-shadow: 0 0 10px cyan;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+#showMessageBtn:hover {
+    background-color: rgb(0, 255, 255);
+    box-shadow: 0 0 14px cyan, 0 0 20px cyan;
+    transform: scale(1.1);
+}
+
+#showMessageBtn:active {
+    background-color: rgb(0, 230, 230);
+    box-shadow: 0 0 8px cyan;
+    transform: scale(0.98);
+}
+
+.logo-container h1 {
+    color: cyan;
+    font-size: 28px;
+    text-shadow: 0 0 5px cyan, 0 0 15px rgb(97, 179, 179);
+    margin: 0;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-links li {
+    margin-left: 20px;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    transition: color 0.3s;
+    text-shadow: 0 0 5px cyan, 0 0 15px rgb(97, 179, 179);
+}
+
+.nav-links a:hover {
+    color: cyan;
+    text-shadow: 0 0 10px cyan;
+}
+
+.nav-links li:last-child {
+    margin-right: 0;
+}
+
 .task-container {
     display: flex;
     align-items: center;
@@ -37,6 +116,7 @@ body {
     max-width: 600px;
     width: 100%;
     border: 2px solid cyan ;
+    margin-bottom: 240px;
 }
 
 .task-content {
@@ -189,53 +269,21 @@ body li{
 }
 
 @keyframes showMessage {
-    0% {
-        transform: scale(0);
-        opacity: 0;
-    }
-    50% {
-        transform: scale(1.1);
-        opacity: 1;
-    }
-    100% {
-        transform: scale(1);
-        opacity: 1;
-    }
+    0% { transform: scale(0); opacity: 0; }
+    50% { transform: scale(1.1); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
 }
 
 @keyframes disappearEffect {
-    0% {
-        opacity: 1;
-        transform: scale(1) translateY(0);
-        filter: blur(0px);
-    }
-    50% {
-        opacity: 0.5;
-        transform: scale(1.2) translateY(-10px);
-        filter: blur(8px);
-        box-shadow: 0 0 20px cyan;
-    }
-    100% {
-        opacity: 0;
-        transform: scale(0) translateY(-50px);
-        filter: blur(24px);
-    }
+    0% { opacity: 1; transform: scale(1); filter: blur(0px); }
+    50% { opacity: 0.5; transform: scale(1.2); filter: blur(8px); }
+    100% { opacity: 0; transform: scale(0); filter: blur(24px); }
 }
 
 @keyframes leveledUpEffect {
-    0% {
-        opacity: 0;
-        transform: scale(0.5);
-        filter: brightness(2);
-    }
-    50% {
-        opacity: 1;
-        transform: scale(1.2);
-    }
-    100% {
-        transform: scale(1);
-        filter: brightness(1);
-    }
+    0% { opacity: 0; transform: scale(0.5); filter: brightness(2); }
+    50% { opacity: 1; transform: scale(1.2); }
+    100% { opacity: 1; transform: scale(1); filter: brightness(1); } 
 }
 
 .leveled-up-text {
@@ -244,7 +292,7 @@ body li{
     text-shadow: 0 0 5px cyan, 0 0 15px cyan, 0 0 25px cyan;
     opacity: 0;
     transform: scale(0.5);
-    animation: leveledUpEffect 1.5s forwards 1.5s;
+    animation-fill-mode: forwards; 
 }
 
 main {
