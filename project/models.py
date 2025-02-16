@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.contrib.auth.models import User
 
 class EverydayTask(models.Model):
     DAY_STATUS_CHOICES = [
@@ -11,11 +11,11 @@ class EverydayTask(models.Model):
         ('adaptation','адаптация')
     ]
 
-    day = models.PositiveBigIntegerField(unique=True, default=1)  
+    day = models.PositiveBigIntegerField(unique=True, default=1)
     quote_1 = models.TextField(null=True, blank=True)  
     quote_2 = models.TextField(null=True, blank=True)  
     tasks = models.JSONField(default=list, blank=True)  
-    quantity_task = models.PositiveBigIntegerField(unique=True,)
+    quantity_task = models.PositiveBigIntegerField()
     image = models.ImageField(upload_to='static/img', blank=True, null=True)
     image_2 = models.ImageField(upload_to='static/img', blank=True, null=True)  
     image_3 = models.ImageField(upload_to='static/img', blank=True, null=True)
