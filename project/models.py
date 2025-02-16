@@ -1,5 +1,4 @@
 from django.db import models
-from django.contrib.auth.models import User
 
 class EverydayTask(models.Model):
     DAY_STATUS_CHOICES = [
@@ -35,3 +34,12 @@ class EverydayTask(models.Model):
         verbose_name = "Ежедневное задание"
         verbose_name_plural = "Ежедневные задания"
         ordering = ['day']
+
+from django.contrib.auth.models import AbstractUser
+
+class CustomUser(AbstractUser):
+    
+    level = models.PositiveIntegerField(default=1)
+
+    def __str__(self):
+        return self.username

@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.utils.html import format_html
-from .models import EverydayTask
+from .models import EverydayTask, CustomUser
+from django.contrib.auth.admin import UserAdmin
 
 @admin.register(EverydayTask)
 class EverydayTaskAdmin(admin.ModelAdmin):
@@ -31,3 +32,12 @@ class EverydayTaskAdmin(admin.ModelAdmin):
     status_colored.admin_order_field = 'status'
     status_colored.short_description = "Status"
 
+@admin.register(CustomUser)
+class CustomUserAdmin(UserAdmin):
+    list_display = ('level', )
+    fieldsets = UserAdmin.fieldsets+(
+        (None, {'fields': ['level']}),
+        )
+    add_fieldsets = UserAdmin.add_fieldsets+(           #--- !!!
+        (None, {'fields': ['level']}),
+        )

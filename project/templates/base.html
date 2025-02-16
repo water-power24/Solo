@@ -33,7 +33,7 @@
         </nav>
     </header>
     <div class="header-level">
-        <p id="user-level"><strong>Ваш уровень:</strong> </p>
+        <p id="user-level"><strong>Ваш уровень:{{ level }}</strong> </p>
     </div>
     
     
@@ -65,6 +65,8 @@
         const soundDisappear = document.getElementById('soundDisappear');
         const showMessageBtn = document.getElementById('showMessageBtn');
 
+        soundLeveledUp.volume =0.2
+
         let isAudioUnlocked = false;
         let isFirstPlay = true;
 
@@ -94,8 +96,6 @@
             if (isFirstPlay) {
                 soundAppear.play();
                 isFirstPlay = false;
-            } else {
-                setTimeout(() => soundAppear.play(), 100);
             }
 
             const leveledUpDelay = 2000; 

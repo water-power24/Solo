@@ -1,22 +1,22 @@
 from django.shortcuts import render, redirect
-from .models import EverydayTask
+from .models import EverydayTask, CustomUser
 from .forms import CustomUserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 
 def index(request):
-    level = 1
+    level = CustomUser.objects.values('level')
     last_completed_day = request.session.get("last_completed_day", 0)
     task = EverydayTask.objects.filter(day__gt=last_completed_day).order_by("day").first()
     
-    return render(request, "index.html", {"task": task, 'level': level})
+    return render(request, "index.html", {"task": task, 'level': level[0]['level']})
 
 def complete_day(request, day):
     if request.method == "POST":
         request.session["last_completed_day"] = day
         return redirect("index")
 
-    task = EverydayTask.objects.filter(day=day).first()  # Теперь это объект, а не число
+    task = EverydayTask.objects.filter(day=day).first() 
     return render(request, "index.html", {"task": task})
 
 def reset_progress(request):
