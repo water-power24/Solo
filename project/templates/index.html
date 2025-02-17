@@ -1,19 +1,12 @@
 {%extends 'base.html'%} {% block title %} {{title}} {%endblock%} 
 {%block content%}
 
-    <main>
-        <div id="message" class="anime-message" style="display: none;">
-            <div class="flex">
-                <div class="tittle-notification">
-                    <div class="circle">!</div>
-                </div>
-                <div><h3>NOTIFICATION</h3></div>
-            </div>
-            <p>Ты поднялся на:</p>
-            <p class="level">[ {{ level }}Lvl ]</p>
-            <p id="leveledUp" class="leveled-up-text">LEVELED UP!</p>
-            <p class="level-up">Ваш уровень повысился!</p>
+<main>
+    <div class="container">
+        <div class="bottle">
+            <div id="waterLevel" class="water-container"></div>
         </div>
+
         <div class="task-container">
             <div class="task-content">
                 <p class="task-day">Day: {{ task.day }}</p>
@@ -26,25 +19,25 @@
                         <li>
                             <input type="checkbox" class="task-checkbox" id="task-{{ forloop.counter }}">
                             <label for="task-{{ forloop.counter }}">{{ t }}</label>
-                            </br>
-                            </br>
+                            </br></br>
                         </li>
                     {% endfor %}
                 </ul>
                 <p class="task-title">all tasks: {{task.quantity_task}}</p>
-            {% if task %}
-                <form method="post" action="{% url 'complete_day' task.day %}">
+                {% if task %}
+                    <form method="post" action="{% url 'complete_day' task.day %}">
+                        {% csrf_token %}
+                        <button type="submit">День выполнен!</button>
+                    </form>
+                {% else %}
+                    <p>Все задания выполнены!</p>
+                {% endif %}
+                <form method="post" action="{% url 'reset_progress' %}">
                     {% csrf_token %}
-                    <button type="submit">День выполнен!</button>
+                    <button type="submit">Начать сначала</button>
                 </form>
-            {% else %}
-                <p>Все задания выполнены!</p>
-            {% endif %}
-             <form method="post" action="{% url 'reset_progress' %}"> <!--времено, чтобы уходить на прошлые задания, потом смотри убери!!! и в url и в views -->
-                {% csrf_token %}
-                <button type="submit">Начать сначала</button>
-            </form>
             </div>
+
             <div class="task-status">
                 <div class="status-indicator 
                     {% if task.status == 'Sports' %} status-red 
@@ -60,6 +53,8 @@
                 <span class="status-text">{{ task.get_status_display }}</span>
             </div>
         </div>
-    </main>
+    </div>
+</main>
+
 {%endblock%}
 

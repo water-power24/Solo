@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 
 body {
-    background: linear-gradient(135deg, #a89bc0, #4e4792, #302b63, #101020); 
+    background: linear-gradient(135deg, #a89bc0, #4e4792, #5149a8, #101020); 
     font-family: 'Bebas Neue', sans-serif;
     color: white;
     display: flex;
@@ -206,28 +206,31 @@ nav {
     margin: 5px 0;
 }
 
+
+.bottle {
+    width: 120px;
+    height: 300px;
+    background: #ccc;
+    border-radius: 20px;
+    position: relative;
+    overflow: hidden;
+    border: 3px solid #101020;
+    right: 80%;
+    bottom:20%;
+}
+
+.water-container {
+    position: absolute;
+    width: 100%;
+    height: 0;
+    bottom: 0;
+    background: linear-gradient(to top, #036191, #71d9fc);
+    transition: height 0.5s ease-in-out;
+    overflow: hidden;
+}
+
 .task-checkbox {
     margin-right: 10px;
-}
-
-.task-button {
-    background: cyan;
-    border: none;
-    border-bottom: 3px solid  #000;
-    color: black;
-    padding: 10px 20px;
-    margin-top: 10px;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: 0.2s;
-    box-shadow: 0 0 10px cyan;
-}
-
-.task-button:hover {
-    background: rgb(0, 255, 255);
-    border-bottom:3px solid cyan ;
-    box-shadow: 0 0 14px cyan;
 }
 
 .task-status {
