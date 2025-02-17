@@ -9,6 +9,11 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon/favicon-16x16.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="48x48" href="{% static 'favicon/favicon-48x48.png' %}">
+    <link rel="icon" type="image/png" sizes="64x64" href="{% static 'favicon/favicon-64x64.png' %}">
+    <link rel="icon" href="{% static 'favicon/favicon.ico' %}" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Nerko+One&family=Oswald:wght@200..700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -16,12 +21,13 @@
     <header>
         <nav>
             <div class="logo-container">
-                <h1>Solo</h1> 
+                <img src="../static/img/orig.png" alt="" class="logo-images">
+                <h1>Solo</h1>
             </div>
             <button id="showMessageBtn">Показать сегодняшние достижения?</button>
             <ul class="nav-links">
                 <li><a href="/"><i class="fas fa-home"></i> Главная</a></li>
-                <li><a href="/vital_achievements"><i class="fas fa-trophy"></i> Достижения</a></li>
+                <li><a href="/vital_achievements"><i class="fas fa-trophy"></i>Твои достижения</a></li>
                 {% if user.is_authenticated %}
                     <li><a href="{% url 'profile' %}"><i class="fas fa-user"></i> Профиль</a></li>
                     <li><a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
@@ -33,7 +39,7 @@
         </nav>
     </header>
     <div class="header-level">
-        <p id="user-level"><strong>Ваш уровень:{{ level }}</strong> </p>
+        <p id="user-level"><strong>Ваш уровень: {{ level }}</strong> </p>
     </div>
     
     
@@ -58,69 +64,83 @@
 <audio id="soundDisappear" src="{% static 'sounds/soundDisappear.mp3' %}"></audio>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const message = document.getElementById('message');
-        const leveledUpText = document.getElementById('leveledUp');
-        const soundAppear = document.getElementById('soundAppear');
-        const soundLeveledUp = document.getElementById('soundLeveledUp');
-        const soundDisappear = document.getElementById('soundDisappear');
-        const showMessageBtn = document.getElementById('showMessageBtn');
+    const message = document.getElementById('message');
+    const showMessageBtn = document.getElementById('showMessageBtn');
+    let clickCount = 0;
+    let isMessageVisible = false;
 
-        soundLeveledUp.volume =0.2
+    const soundAppear = document.getElementById('soundAppear');
+    const soundDisappear = document.getElementById('soundDisappear');
+    const soundLeveledUp = document.getElementById('soundLeveledUp');
+    const soundGlitch = new Audio('soundGlitch.mp3');  
 
-        let isAudioUnlocked = false;
-        let isFirstPlay = true;
+    soundLeveledUp.volume = 0.2;
 
-        function unlockAudio() {
-            if (!isAudioUnlocked) {
-                soundAppear.play().then(() => {
-                    soundAppear.pause();
-                    soundAppear.currentTime = 0;
-                    soundLeveledUp.play().then(() => {
-                        soundLeveledUp.pause();
-                        soundLeveledUp.currentTime = 0;
-                    });
-                    soundDisappear.play().then(() => {
-                        soundDisappear.pause();
-                        soundDisappear.currentTime = 0;
-                    });
-                    isAudioUnlocked = true;
-                }).catch(() => {});
+    let messages = [
+        `<p>Ты же уже видел сегодняшние достижения?!</p> 
+         <p>У тебя проблемы с реакцией или памятью?</p> 
+         <p>Явно не мои проблемы, решай их сам...</p> 
+         <p><strong>Что за невнимательность? Теперь с тобой не разговариваю!</strong></p>`
+    ];
+
+    function showGlitchText(element, text, delay = 50) {
+        let chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()";
+        let glitchText = text.split("").map(() => chars[Math.floor(Math.random() * chars.length)]).join("");
+        element.textContent = glitchText;
+        let i = 0;
+        let interval = setInterval(() => {
+            if (i >= text.length) {
+                clearInterval(interval);
+            } else {
+                glitchText = glitchText.substring(0, i) + text[i] + glitchText.substring(i + 1);
+                element.textContent = glitchText;
+                i++;
             }
-            document.removeEventListener('click', unlockAudio);
-        }
+        }, delay);
+    }
 
-        function showMessage() {
+    function showMessage() {
+        clickCount++;
+
+        if (clickCount === 1) {
             message.style.display = 'block';
             message.style.animation = 'showMessage 1s forwards';
+            soundAppear.play();
+            isMessageVisible = true;
+        } else if (clickCount === 2) {
+            message.innerHTML = messages[0];
+            message.style.display = 'block';
+            message.style.animation = 'showMessage 1s forwards';
+            soundLeveledUp.play();
+            isMessageVisible = true;
+        } else if (clickCount === 3) {
+            showMessageBtn.disabled = true;
+            showGlitchText(showMessageBtn, "??????????????????");
+            setTimeout(() => showGlitchText(showMessageBtn, "Я предупреждал..."), 3000);
 
-            if (isFirstPlay) {
-                soundAppear.play();
-                isFirstPlay = false;
-            }
-
-            const leveledUpDelay = 2000; 
-            setTimeout(() => {
-                leveledUpText.style.opacity = '1';
-                leveledUpText.style.animation = 'leveledUpEffect 1.5s forwards';
-                if (isAudioUnlocked) {
-                    soundLeveledUp.play();
-                }
-            }, leveledUpDelay);
-
+            message.innerHTML = `<p id="glitchMessage"></p>`;
+            showGlitchText(document.getElementById("glitchMessage"), "ТЫ НАПРОСИЛСЯ...", 100);
+            message.style.display = 'block';
+            message.style.animation = 'showMessage 1s forwards';
+            soundGlitch.play();
+            isMessageVisible = true;
         }
+    }
 
-        function hideMessage() {
+    function hideMessage() {
+        if (isMessageVisible) {
+            message.style.animation = 'disappearEffect 1s forwards';
             soundDisappear.play();
-            message.style.animation = 'disappearEffect 2s forwards';
             setTimeout(() => {
                 message.style.display = 'none';
-            }, 2000);
+                isMessageVisible = false;
+            }, 1000);
         }
+    }
 
-        showMessageBtn.addEventListener('click', showMessage);
-        document.addEventListener('click', unlockAudio);
-        message.addEventListener('click', hideMessage);
-    });
+    showMessageBtn.addEventListener('click', showMessage);
+    message.addEventListener('click', hideMessage);
+});
 </script>
 </body>
 </html>

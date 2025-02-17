@@ -5,15 +5,25 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 
 def index(request):
-    level = CustomUser.objects.values('level')
+    level = request.user.level if request.user.is_authenticated else 1
     last_completed_day = request.session.get("last_completed_day", 0)
     task = EverydayTask.objects.filter(day__gt=last_completed_day).order_by("day").first()
     
-    return render(request, "index.html", {"task": task, 'level': level[0]['level']})
+    return render(request, "index.html", {"task": task, 'level': level})
 
+@login_required
 def complete_day(request, day):
     if request.method == "POST":
+        last_completed_day = request.session.get("last_completed_day", 0)
         request.session["last_completed_day"] = day
+        
+        user = request.user
+        completed_days = day  
+
+        if completed_days % 2 == 0:  
+            user.level += 1
+            user.save()
+
         return redirect("index")
 
     task = EverydayTask.objects.filter(day=day).first() 
@@ -21,6 +31,9 @@ def complete_day(request, day):
 
 def reset_progress(request):
     request.session["last_completed_day"] = 0
+    if request.user.is_authenticated:
+        request.user.level = 1
+        request.user.save()
     return redirect("index")
 
 def logout_view(request):

@@ -1,6 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
 body {
-    background-color: #17141d;;
-    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #a89bc0, #4e4792, #302b63, #101020); 
+    font-family: 'Bebas Neue', sans-serif;
     color: white;
     display: flex;
     flex-direction: column;
@@ -11,12 +13,16 @@ body {
     overflow-x: hidden;
 }
 
+h1, h2, h3 {
+    text-shadow: 0 0 10px cyan, 0 0 20px blue;
+}
+
 .status-red { background-color: rgb(163, 31, 31); }
 .status-green { background-color: rgb(15, 88, 15); }
 .status-blue { background-color: rgb(49, 49, 231); }
 .status-orange { background-color: rgb(199, 142, 37); }
 .status-gray { background-color: rgb(112, 112, 112); }
-.status-yellow { background-color: rgb(231, 231, 38); }
+.status-yellow { background-color: rgb(218, 218, 15); }
 .status-black { background-color: black; }
 
 .status-indicator {
@@ -44,6 +50,12 @@ header {
     padding: 30px 0;
     box-shadow: 0 4px 8px rgba(0, 255, 255, 0.2);
    
+}
+
+.logo-images{
+    padding-right: 24px;
+    width: 70px;
+    height: 70px;
 }
 
 .header-level { 
@@ -97,9 +109,14 @@ nav {
     transform: scale(0.98);
 }
 
+.logo-container{
+    display: flex;
+}
+
 .logo-container h1 {
+    padding-top: 12px;
     color: cyan;
-    font-size: 28px;
+    font-size: 40px;
     text-shadow: 0 0 5px cyan, 0 0 15px rgb(97, 179, 179);
     margin: 0;
 }
@@ -143,7 +160,8 @@ nav {
     box-shadow: 0 0 10px cyan;
     max-width: 600px;
     width: 100%;
-    border: 2px solid cyan ;
+    border: 2px solid cyan;
+    box-shadow: 0 0 10px cyan, 0 0 20px cyan, 0 0 30px cyan;
     margin-bottom: 240px;
 }
 
@@ -314,6 +332,22 @@ body li{
     100% { opacity: 1; transform: scale(1); filter: brightness(1); } 
 }
 
+@keyframes levelUpGlow {
+    0% { text-shadow: 0 0 5px cyan, 0 0 15px cyan, 0 0 25px cyan; }
+    50% { text-shadow: 0 0 20px cyan, 0 0 40px cyan, 0 0 60px cyan; }
+    100% { text-shadow: 0 0 5px cyan, 0 0 15px cyan, 0 0 25px cyan; }
+}
+
+@keyframes glowingBackground {
+    0% { background-position: 0 0; }
+    50% { background-position: 100% 100%; }
+    100% { background-position: 0 0; }
+}
+
+.level-up {
+    animation: levelUpGlow 2s infinite alternate;
+}
+
 .leveled-up-text {
     color: #fff;
     font-weight: bold;
@@ -381,29 +415,26 @@ footer p {
 
 
 form button {
-    background: cyan;
-    color: black;
-    font-size: 18px;
-    padding: 12px 30px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: 0.3s;
-    box-shadow: 0 0 10px cyan;
-    margin-bottom: 24px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
 }
 
-form button:hover {
-    background-color: rgb(0, 255, 255);
-    box-shadow: 0 0 14px cyan;
-    transform: scale(1.05);
+form button::before {
+    content: "";
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(90deg, cyan, blue, purple);
+    z-index: -1;
+    filter: blur(10px);
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
 }
 
-form button:active {
-    background-color: rgb(0, 230, 230);
-    box-shadow: 0 0 8px cyan;
+form button:hover::before {
+    opacity: 1;
 }
 
-form button:focus {
-    outline: none;
-}
