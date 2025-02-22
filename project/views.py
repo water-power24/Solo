@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 from .models import EverydayTask, CustomUser
-from .forms import CustomUserCreationForm
+from .forms import CustomUserCreationForm, FitnessForm
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import logout
+from django.contrib.auth import logout, login
 
 def index(request):
     level = request.user.level if request.user.is_authenticated else 1
@@ -41,14 +41,37 @@ def logout_view(request):
     return redirect('login')
 
 def register(request):
+    step = request.session.get('registration_step', '1')
+
     if request.method == 'POST':
-        form = CustomUserCreationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('login') 
-    else:
+        if step == '1':
+            form = CustomUserCreationForm(request.POST)
+            if form.is_valid():
+                user = form.save(commit=False)
+                user.save()
+                request.session['new_user_id'] = user.id  # Сохраняем ID пользователя
+                request.session['registration_step'] = '2'  # Переход на шаг 2
+                return redirect('register')
+
+        elif step == '2':
+            user_id = request.session.get('new_user_id')
+            user = CustomUser.objects.get(id=user_id)
+            form = FitnessForm(request.POST, instance=user)
+            if form.is_valid():
+                form.save()
+                login(request, user)  # Автоматический вход
+                del request.session['new_user_id']
+                del request.session['registration_step']
+                return redirect('index')
+
+    # Отображение правильной формы в зависимости от шага
+    if step == '1':
         form = CustomUserCreationForm()
-    return render(request, 'register.html', {'form': form})
+    else:
+        form = FitnessForm()
+
+    return render(request, 'register.html', {'form': form, 'step': step})
+
 
 @login_required
 def profile(request):

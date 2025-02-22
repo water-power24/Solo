@@ -1,10 +1,18 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2>Регистрация</h2>
+<h2>Регистрация — {% if step == '1' %}Шаг 1{% else %}Шаг 2{% endif %}</h2>
+
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Зарегистрироваться</button>
+
+    {% if step == '1' %}
+        <input type="hidden" name="step" value="1">
+        <button type="submit">Далее</button>
+    {% else %}
+        <input type="hidden" name="step" value="2">
+        <button type="submit">Завершить регистрацию</button>
+    {% endif %}
 </form>
 {% endblock %}

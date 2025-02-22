@@ -38,8 +38,10 @@ class EverydayTask(models.Model):
 from django.contrib.auth.models import AbstractUser
 
 class CustomUser(AbstractUser):
-    
     level = models.PositiveIntegerField(default=1)
+    max_pushups = models.PositiveIntegerField(null=True, blank=True, verbose_name="Максимум в отжиманиях")
+    max_pullups = models.PositiveIntegerField(null=True, blank=True, verbose_name="Максимум в подтягиваниях")
+    max_run_1km = models.FloatField(null=True, blank=True, verbose_name="Время на 1 км (мин)")
 
     def __str__(self):
         return self.username

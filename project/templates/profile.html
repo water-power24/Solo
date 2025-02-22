@@ -7,12 +7,17 @@
         <div class="profile-info">
             <p><strong>Имя:</strong> {{ user.username }}</p>
             <p><strong>Email:</strong> {{ user.email }}</p>
-            <p><strong>Дата регистрации:</strong> {{ user.date_joined }}</p>
-            <li><a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            <p><strong>Возраст:</strong> {{ user.age }}</p>
+            <p><strong>Дата регистрации:</strong> {{ user.date_joined|date:"d.m.Y H:i" }}</p>
+
+            <h3>Физические показатели на момент регистрации:</h3>
+            <p>Максимум в отжиманиях: {{ user.max_pushups|default:"Не указано" }}</p>
+            <p>Максимум в подтягиваниях: {{ user.max_pullups|default:"Не указано" }}</p>
+            <p>Время на 1 км (мин): {{ user.max_run_1km|default:"Не указано" }}</p>
+
+            <li><a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Выйти</a></li>
             <img src="../static/img/Solo_img.jpg" alt="">
-        
         </div>
-        
     </div>
 </main>
 {% endblock %}

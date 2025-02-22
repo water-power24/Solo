@@ -1,6 +1,8 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
+from .models import CustomUser
+
 
 class CustomUserCreationForm(UserCreationForm):
 
@@ -8,7 +10,7 @@ class CustomUserCreationForm(UserCreationForm):
     age = forms.IntegerField(min_value=18)
 
     class Meta:
-        model = User
+        model = CustomUser
         fields = ['username', 'email', 'age', 'password1', 'password2']
 
     def save(self, commit=True):
@@ -20,7 +22,16 @@ class CustomUserCreationForm(UserCreationForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['username'].help_text = ''  
-        self.fields['password1'].help_text = ''
-        self.fields['password2'].help_text = '' 
-        self.fields['age'].help_text = '' 
+        for field in self.fields:
+            self.fields[field].help_text = ''
+    
+
+
+class FitnessForm(forms.ModelForm):
+    max_pushups = forms.IntegerField(required=True, label="Максимум в отжиманиях")
+    max_pullups = forms.IntegerField(required=True, label="Максимум в подтягиваниях")
+    max_run_1km = forms.FloatField(required=True, label="Время на 1 км (минуты)")
+
+    class Meta:
+        model = CustomUser
+        fields = ['max_pushups', 'max_pullups', 'max_run_1km']
