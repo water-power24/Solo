@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Создание новой привычки</h1>
+
+<form method="post">
+    {% csrf_token %}
+    <label for="habit">Введите привычку:</label><br>
+    <input type="text" name="habit" required><br><br>
+    <button type="submit">Создать привычку!</button>
+</form>
+{% endblock %}

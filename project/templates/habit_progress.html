@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Прогресс привычки: {{ habit.habit }}</h1>
+
+<form method="post">
+    {% csrf_token %}
+    <p>Отмечайте каждый выполненный день:</p>
+
+    <div id="checkboxes-container">
+        {% for day in days %}
+            <label>
+                <input type="checkbox" name="days" value="{{ day }}" class="day-checkbox"> День {{ day }}
+            </label><br>
+        {% endfor %}
+    </div>
+
+    <br>
+    <button type="submit" id="submit-button" disabled>Завершить привычку</button>
+</form>
+
+<a href="{% url 'profile' %}">Назад к профилю</a>
+{% endblock %}
