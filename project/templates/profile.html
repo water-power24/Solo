@@ -14,7 +14,28 @@
             <p>Максимум в отжиманиях: {{ user.max_pushups|default:"Не указано" }}</p>
             <p>Максимум в подтягиваниях: {{ user.max_pullups|default:"Не указано" }}</p>
             <p>Время на 1 км (мин): {{ user.max_run_1km|default:"Не указано" }}</p>
+            
+            <h3>Незавершенные привычки</h3>
+            <ul>
+                {% for habit in habits_in_progress %}
+                    <li>
+                        <a href="{% url 'habit_progress' habit.id %}" class="habit-a">
+                            Перейти к прогрессу "{{ habit.habit }}"
+                        </a>
+                    </li>
+                {% empty %}
+                    <p>Нет активных привычек</p>
+                {% endfor %}
+            </ul>
 
+            <h3>Завершенные привычки</h3>
+            <ul>
+                {% for habit in completed_habits %}
+                    <li>{{ habit.habit }} - ✅ Выполнено</li>
+                {% empty %}
+                    <p>Нет завершенных привычек</p>
+                {% endfor %}
+            </ul>
             <li><a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Выйти</a></li>
             <img src="../static/img/Solo_img.jpg" alt="">
         </div>

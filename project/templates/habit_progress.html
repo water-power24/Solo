@@ -1,23 +1,28 @@
 {% extends 'base.html' %}
 
+
+
+
 {% block content %}
-<h1>Прогресс привычки: {{ habit.habit }}</h1>
-
-<form method="post">
+<form method="POST">
     {% csrf_token %}
-    <p>Отмечайте каждый выполненный день:</p>
-
-    <div id="checkboxes-container">
-        {% for day in days %}
+    <h2>Прогресс по привычке "{{ habit.habit }}"</h2>
+    
+    <ul>
+        {% for day in progress_days %}
+        <li>
             <label>
-                <input type="checkbox" name="days" value="{{ day }}" class="day-checkbox"> День {{ day }}
-            </label><br>
+                <input type="checkbox" name="day_{{ day.day }}" {% if day.completed %}checked{% endif %}>
+                День {{ day.day }}
+            </label>
+        </li>
         {% endfor %}
-    </div>
+    </ul>
 
-    <br>
-    <button type="submit" id="submit-button" disabled>Завершить привычку</button>
+    <button type="submit">Сохранить прогресс</button>
 </form>
 
-<a href="{% url 'profile' %}">Назад к профилю</a>
+{% if habit.completed %}
+    <p>🎉 Привычка завершена! 🎉</p>
+{% endif %}
 {% endblock %}

@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from .models import CustomUser
+from .models import CustomUser, Habit
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -25,6 +25,14 @@ class CustomUserCreationForm(UserCreationForm):
         for field in self.fields:
             self.fields[field].help_text = ''
     
+
+class HabitForm(forms.ModelForm):
+    class Meta:
+        model = Habit
+        fields = ['habit']
+        labels = {
+            'habit': 'Название привычки',
+        }
 
 
 class FitnessForm(forms.ModelForm):

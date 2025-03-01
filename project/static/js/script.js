@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
             soundAppear.play();
             isMessageVisible = true;
         } else if (clickCount === 2) {
-            message.innerHTML = messageText;
+            message.innerHTML = messages[0];
             message.style.display = 'block';
             message.style.animation = 'showMessage 1s forwards';
             soundLeveledUp.play();

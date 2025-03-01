@@ -1,4 +1,6 @@
 from django.db import models
+from django.conf import settings
+from django.contrib.auth.models import AbstractUser
 
 class EverydayTask(models.Model):
     DAY_STATUS_CHOICES = [
@@ -35,8 +37,6 @@ class EverydayTask(models.Model):
         verbose_name_plural = "Ежедневные задания"
         ordering = ['day']
 
-from django.contrib.auth.models import AbstractUser
-
 class CustomUser(AbstractUser):
     level = models.PositiveIntegerField(default=1)
     max_pushups = models.PositiveIntegerField(null=True, blank=True, verbose_name="Максимум в отжиманиях")
@@ -45,3 +45,28 @@ class CustomUser(AbstractUser):
 
     def __str__(self):
         return self.username
+    
+class UserProgress(models.Model):
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
+    last_completed_day = models.PositiveIntegerField(default=0)
+    last_completed_date = models.DateField(null=True, blank=True)
+
+class Habit(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    habit = models.CharField(max_length=255)
+    completed_days = models.IntegerField(default=0)  
+    completed = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.habit} ({self.completed_days}/21)"
+
+class HabitProgress(models.Model):
+    habit = models.ForeignKey(Habit, on_delete=models.CASCADE)
+    day = models.IntegerField()  
+    completed = models.BooleanField(default=False)
+
+    class Meta:
+        unique_together = ('habit', 'day')  
+
+    def __str__(self):
+        return f"{self.habit.habit} - День {self.day}: {'Выполнено' if self.completed else 'Не выполнено'}"

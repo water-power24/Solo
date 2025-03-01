@@ -15,5 +15,5 @@ urlpatterns = [
     path('profile/', views.profile, name='profile'),
     path('logout/', logout_view, name='logout'),
     path('create_habit/', views.create_habit, name='create_habit'),
-    path('habit_progress/<int:habit_id>/', habit_progress, name='habit_progress'),
+    path('habit_progress/<int:habit_id>/', views.habit_progress, name='habit_progress'),
 ]

@@ -30,6 +30,7 @@
                 <li><a href="/vital_achievements"><i class="fas fa-trophy"></i>Твои достижения</a></li>
                 {% if user.is_authenticated %}
                     <li><a href="{% url 'profile' %}"><i class="fas fa-user"></i> Профиль</a></li>
+                    <li><a href="{% url 'create_habit' %}"><i class="fas fa-clipboard-list"></i> Привычка</a></li>
                     <li><a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
                 {% else %}
                     <li><a href="{% url 'register' %}"><i class="fas fa-user-plus"></i> Sign up</a></li>
