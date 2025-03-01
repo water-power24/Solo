@@ -13,6 +13,51 @@ body {
     overflow-x: hidden;
 }
 
+button {
+    background: linear-gradient(135deg, #5149a8, #4e4792);
+    color: white;
+    font-size: 18px;
+    font-family: 'Bebas Neue', sans-serif;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 18px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    text-transform: uppercase;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 8px;
+}
+
+button:hover {
+    background: linear-gradient(135deg, #4e4792, #5149a8);
+    box-shadow: 0 0 20px cyan, 0 0 30px blue;
+    transform: scale(1.05);
+}
+
+button:active {
+    transform: scale(0.98);
+    box-shadow: 0 0 10px cyan;
+}
+
+button::before {
+    content: "";
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(90deg, cyan, blue, purple);
+    z-index: -1;
+    filter: blur(10px);
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+button:hover::before {
+    opacity: 1;
+}
+
 h1, h2, h3 {
     text-shadow: 0 0 10px cyan, 0 0 20px blue;
 }
